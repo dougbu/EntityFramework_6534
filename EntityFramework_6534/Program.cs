@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 
 namespace EntityFramework_6534
@@ -7,6 +9,8 @@ namespace EntityFramework_6534
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine($"`int` is in {typeof(int).GetTypeInfo().Assembly.Location}.");
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
