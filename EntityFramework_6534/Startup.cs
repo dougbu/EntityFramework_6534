@@ -37,7 +37,7 @@ namespace EntityFramework_6534
         {
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
