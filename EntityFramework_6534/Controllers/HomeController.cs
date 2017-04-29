@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EntityFramework_6534.Data;
+using EntityFramework_6534.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +44,29 @@ namespace EntityFramework_6534.Controllers
 
         public async Task<List<Results>> Bug1()
         {
+            var match = new ApplicationUser
+            {
+                Claims =
+                {
+                    new IdentityUserClaim<string>
+                    {
+                        ClaimType = "My",
+                        ClaimValue = "Claim",
+                    },
+                    new IdentityUserClaim<string>
+                    {
+                        ClaimType = "Claim",
+                        ClaimValue = "My",
+                    },
+                },
+                Email = "joe@fred.com",
+                EmailConfirmed = true,
+                UserName = "Joe",
+            };
+
+            await _dbContext.AddAsync(match);
+            await _dbContext.SaveChangesAsync();
+
             var val = from c in _dbContext.Users
                       where c.EmailConfirmed
                       orderby c.Email
