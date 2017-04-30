@@ -82,7 +82,6 @@ namespace EntityFramework_6534.Controllers
         public async Task<Results> Bug2()
         {
             var user = await _dbContext.Users
-                .Where(x => !string.IsNullOrEmpty(x.Id))
                 .Select(x => new Results
                 {
                     Count = x.Claims.Count(y => y.ClaimType == "Claim"),
