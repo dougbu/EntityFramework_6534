@@ -79,9 +79,44 @@ namespace EntityFramework_6534.Controllers
             return await val.ToListAsync();
         }
 
+        public async Task<Results> Bug2()
+        {
+            var user = await _dbContext.Users
+                .Where(x => !string.IsNullOrEmpty(x.Id))
+                .Select(x => new Results
+                {
+                    Count = x.Claims.Count(y => y.ClaimType == "Claim"),
+                    Name = x.Id,
+                })
+                .FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        public List<SimpleClass> Bug3()
+        {
+            return _dbContext.UserClaims
+                .Select(claim => new SimpleClass
+                {
+                    Count = claim.ClaimType.Length,
+                    Id = claim.Id.ToString(),
+                    Name = claim.ClaimType,
+                })
+                .ToList();
+        }
+
         public class Results
         {
             public int Count { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        public class SimpleClass
+        {
+            public int Count { get; set; }
+
+            public string Id { get; set; }
 
             public string Name { get; set; }
         }
